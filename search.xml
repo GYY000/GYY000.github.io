@@ -23,5 +23,13 @@
     <url>/2022/12/28/first-blog/</url>
     <content><![CDATA[<p>this comes to be my first blog ever</p>
 ]]></content>
+      <categories>
+        <category>trying</category>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>trying</tag>
+        <tag>blog</tag>
+      </tags>
   </entry>
 </search>
