@@ -26,12 +26,12 @@
 <li>上板测试</li>
 </ul>
 <p>下为P8模块示意图</p>
-<p><img src="/%E3%80%8CBUAA-CO%E3%80%8DP8_MIPS%E5%BE%AE%E7%B3%BB%E7%BB%9F.assets/P8%E7%A4%BA%E6%84%8F%E5%9B%BE.png"></p>
+<p><img src="/P8%E7%A4%BA%E6%84%8F%E5%9B%BE.png"></p>
 <hr>
 <h2 id="设计方案"><a href="#设计方案" class="headerlink" title="设计方案"></a>设计方案</h2><h3 id="1、CPU的构造调整"><a href="#1、CPU的构造调整" class="headerlink" title="1、CPU的构造调整"></a>1、CPU的构造调整</h3><h4 id="生成IP核"><a href="#生成IP核" class="headerlink" title="生成IP核"></a><em>生成IP核</em></h4><p>相比于之前使用的由分散寄存器构造的存储器，由IP核产生的存储器效率更高，读取更快，所以在上板验证时我们会选择使用IPcore来生成IM、DM。</p>
 <p>如何生成IP核，可以参看计组的教程，生成实例可以通过产生的IP核的</p>
 <p>Implementation -&gt; View HDL Instantiation Template 中的示例进行构造</p>
-<p><img src="/%E3%80%8CBUAA-CO%E3%80%8DP8_MIPS%E5%BE%AE%E7%B3%BB%E7%BB%9F.assets/IP%E6%A0%B8%E5%AE%9E%E4%BE%8B.png"></p>
+<p><img src="/IP%E6%A0%B8%E5%AE%9E%E4%BE%8B.png"></p>
 <p>加入上述IP核后我们会面对两个问题</p>
 <ul>
 <li>原先存储器可以在任意周期读出，而IP核存储器只有在下一个周期才能正确读出数据</li>
@@ -54,7 +54,7 @@
 <p>我们只需要稍微在 outvalid &#x3D; 1 时让busy_reg下一周期变0 即可产生正确的逻辑（下为部分代码，仅供参考）</p>
 <figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">reg</span> in_valid;</span><br><span class="line"><span class="keyword">reg</span> busy_in;</span><br><span class="line">	 </span><br><span class="line"><span class="keyword">wire</span> out_valid;</span><br><span class="line"><span class="keyword">wire</span> [<span class="number">31</span>:<span class="number">0</span>] out_res0;</span><br><span class="line"><span class="keyword">wire</span> [<span class="number">31</span>:<span class="number">0</span>] out_res1;</span><br><span class="line"><span class="keyword">wire</span> in_ready;</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span>@(<span class="keyword">posedge</span> clk) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(Req != <span class="number">1&#x27;b1</span> &amp;&amp; start == <span class="number">1&#x27;b1</span> &amp;&amp; in_ready == <span class="number">1&#x27;b1</span> &amp;&amp; (hiloMode == `multuMode || hiloMode == `multMode)) </span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">		in_op &lt;= <span class="number">2&#x27;b01</span>;</span><br><span class="line">		in_valid &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">		busy_in &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(Req != <span class="number">1&#x27;b1</span> &amp;&amp; start == <span class="number">1&#x27;b1</span> &amp;&amp; in_ready == <span class="number">1&#x27;b1</span> &amp;&amp; (hiloMode == `divuMode || hiloMode == `divMode)) </span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">		in_op &lt;= <span class="number">2&#x27;b10</span>;</span><br><span class="line">		in_valid &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">		busy_in &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(out_valid == <span class="number">1&#x27;d1</span>) </span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">		in_valid &lt;= <span class="number">0</span>;</span><br><span class="line">		in_op &lt;= <span class="number">0</span>;</span><br><span class="line">		busy_in &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">		HI &lt;= out_res1;</span><br><span class="line">		LO &lt;= out_res0;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">assign</span> busy = busy_in;</span><br></pre></td></tr></table></figure>
 
-<h3 id="2、外设的加入"><a href="#2、外设的加入" class="headerlink" title="2、外设的加入"></a>2、外设的加入</h3><p><img src="/%E3%80%8CBUAA-CO%E3%80%8DP8_MIPS%E5%BE%AE%E7%B3%BB%E7%BB%9F.assets/fpga%E5%AE%9E%E4%BE%8B.png"></p>
+<h3 id="2、外设的加入"><a href="#2、外设的加入" class="headerlink" title="2、外设的加入"></a>2、外设的加入</h3><p><img src="/fpga%E5%AE%9E%E4%BE%8B.png"></p>
 <h3 id="3、软件编写"><a href="#3、软件编写" class="headerlink" title="3、软件编写"></a>3、软件编写</h3><p>课下实现的任务时：串口回显 + 正数或倒数计时 + </p>
 <p>课上实现的任务为：</p>
 <h2 id="总结与反思"><a href="#总结与反思" class="headerlink" title="总结与反思"></a>总结与反思</h2>]]></content>
