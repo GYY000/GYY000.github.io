@@ -3,7 +3,11 @@
   <entry>
     <title>Hello World</title>
     <url>/2022/12/28/first-blog/</url>
-    <content><![CDATA[<p>​	写博客的原因，一方面是想记录自己的计院生活，一方面是希望能</p>
+    <content><![CDATA[<blockquote>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a><em><strong>Hello World</strong></em></h2></blockquote>
+<p>从打出第一句C语言的“Hello world”，到如今完成计组的全部project，在秃头的路上已经走过了一年半载。</p>
+<p>搭建这个博客的起因是希望能记录一下自己这一个学期计组跌宕起伏的学习历程，品尝过挂P的滋味，也感受过通关P8的喜悦。同时我也希望自己的计组课程经历能对接下来挑战他的大家有所帮助，少走一点弯弯绕绕。</p>
+<p>另一方面也想在博客里继续记录自己今后几年的计院生活，给自己的大学四年，留下一点痕迹。</p>
 ]]></content>
       <categories>
         <category>纪念</category>
