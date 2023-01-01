@@ -19,7 +19,7 @@
   <entry>
     <title>「BUAA-CO」P8_MIPS微系统</title>
     <url>/2022/12/30/%E3%80%8CBUAA-CO%E3%80%8DP8_MIPS%E5%BE%AE%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<p>P7 的mips微系统在P6的流水线CPU基础上已经加入了异常监测以及与外界设备交互两个功能。而P8更进一步要让我们的CPU实现能够上板验证并且编写软件来实现题目要求的一定功能。</p>
+    <content><![CDATA[<p>P7 的mips微系统在P6的流水线CPU基础上已经加入了异常监测以及与外界设备交互两个功能。而P8更进一步要让我们的CPU能够上板验证并且编写软件来实现题目要求的一定功能。</p>
 <p>为了完成P8的实验，我们大致需要经历以下几个过程</p>
 <ul>
 <li>修改CPU通路</li>
